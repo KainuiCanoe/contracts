@@ -5,29 +5,24 @@ contract FixedSupplyToken is ERC20BasicToken {
 
     string public constant name = "Fixed Supply Token";
     string public constant symbol = "FIXED";
-    uint256 _totalSupply = 1000000;
-
-    // Functions with this modifier can only be executed by the owner
-    modifier onlyOwner() {
-        if (msg.sender != owner) {
-            throw;
-        }
-        _;
-    }
+    uint256 totalSupply = 1000000;
 
     // Constructor
     function FixedSupplyToken() {
 
-        balances[owner] = _totalSupply;
     }
 
-    function totalSupply() constant returns (uint256 totalSupply) {
-        totalSupply = _totalSupply;
+    function transferOwnership(address newOwner) onlyOwner {
+        owner = newOwner;
+    }
+
+    function totalSupply() constant returns (uint256 initialSupply) {
+        totalSupply = initialSupply;
     }
 
     // What is the balance of a particular account?
-    function balanceOf(address _owner) constant returns (uint256 balance) {
-        return balances[_owner];
+    function balanceOf(address owner) constant returns (uint256 balance) {
+        return balances[owner];
     }
 
     // Transfer the balance from owner's account to another account

@@ -8,12 +8,19 @@ contract ERC20BasicToken is ERC20Token {
     string public constant name = "ERC20 Basic Token";
     string public constant symbol = "ERC20";
     uint8 public constant decimals = 18;  // 18 is the most common number of decimal places
+    uint256 totalSupply = 0;
     // Owner of this contract
     address public owner;
 
+    // Functions with this modifier can only be executed by the owner
+    modifier onlyOwner() {
+        if (msg.sender != owner) throw;
+        _;
+    }
+
     function ERC20BasicToken(){
         owner = msg.sender;
-
+        balances[owner] = totalSupply;
     }
 
     // Balances for each account
@@ -23,7 +30,7 @@ contract ERC20BasicToken is ERC20Token {
     mapping(address => mapping (address => uint256)) allowed;
 
     function totalSupply() constant returns (uint totalSupply) {
-
+        return totalSupply;
     }
 
     // What is the balance of a particular account?
@@ -38,6 +45,8 @@ contract ERC20BasicToken is ERC20Token {
             && balances[to] + amount > balances[to]) {
             balances[msg.sender] -= amount;
             balances[to] += amount;
+            /* Notify anyone listening that this transfer took place */
+            Transfer(msg.sender, to, amount);
             return true;
         } else {
             return false;

@@ -5,59 +5,14 @@ contract FixedSupplyToken is ERC20BasicToken {
 
     string public constant name = "Fixed Supply Token";
     string public constant symbol = "FIXED";
-    uint256 totalSupply = 1000000;
 
     // Constructor
-    function FixedSupplyToken() {
-
+    function FixedSupplyToken(uint256 initialSupply) {
+        totalSupply = initialSupply;
     }
 
     function transferOwnership(address newOwner) onlyOwner {
         owner = newOwner;
-    }
-
-    function totalSupply() constant returns (uint256 initialSupply) {
-        totalSupply = initialSupply;
-    }
-
-    // What is the balance of a particular account?
-    function balanceOf(address owner) constant returns (uint256 balance) {
-        return balances[owner];
-    }
-
-    // Transfer the balance from owner's account to another account
-    function transfer(address _to, uint256 _amount) returns (bool success) {
-        if (balances[msg.sender] >= _amount
-        && _amount > 0
-        && balances[_to] + _amount > balances[_to]) {
-            balances[msg.sender] -= _amount;
-            balances[_to] += _amount;
-            Transfer(msg.sender, _to, _amount);
-            return true;
-        } else {
-            return false;
-        }
-    }
-
-    // Send _value amount of tokens from address _from to address _to
-    // The transferFrom method is used for a withdraw workflow, allowing contracts to send
-    // tokens on your behalf, for example to "deposit" to a contract address and/or to charge
-    // fees in sub-currencies; the command should fail unless the _from account has
-    // deliberately authorized the sender of the message via some mechanism; we propose
-    // these standardized APIs for approval:
-    function transferFrom(address _from, address _to, uint256 _amount) returns (bool success) {
-        if (balances[_from] >= _amount
-        && allowed[_from][msg.sender] >= _amount
-        && _amount > 0
-        && balances[_to] + _amount > balances[_to]) {
-            balances[_from] -= _amount;
-            allowed[_from][msg.sender] -= _amount;
-            balances[_to] += _amount;
-            Transfer(_from, _to, _amount);
-            return true;
-        } else {
-            return false;
-        }
     }
 
     // Allow _spender to withdraw from your account, multiple times, up to the _value amount.

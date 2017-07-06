@@ -2,12 +2,7 @@ pragma solidity ^0.4.0;
 
 
 contract Owned {
-    // TokenCreator is a contract type that is defined below.
-    // It is fine to reference it as long as it is not used
-    // to create a new contract.
-    TokenCreator creator;
     address owner;
-    bytes32 name;
 
     // Functions with this modifier can only be executed by the owner
     modifier onlyOwner() {
@@ -15,9 +10,8 @@ contract Owned {
         _;
     }
 
-    // This is the constructor which registers the
-    // creator and the assigned name.
-    function OwnedToken(bytes32 assignedName) {
+    // This is the constructor which registers the creator.
+    function OwnedToken() {
         // State variables are accessed via their name
         // and not via e.g. this.owner. This also applies
         // to functions and especially in the constructors,
@@ -29,7 +23,6 @@ contract Owned {
         // the calling contract is TokenCreator, there is
         // no real way to check that.
         creator = TokenCreator(msg.sender);
-        name = assignedName;
     }
 
     function changeName(bytes32 newName) {

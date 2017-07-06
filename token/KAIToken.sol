@@ -15,6 +15,11 @@ contract KAIToken is Owned, ERC20Token {
 
     uint public constant creationTime;
 
+    // TokenCreator is a contract type that is defined below.
+    // It is fine to reference it as long as it is not used
+    // to create a new contract.
+    KAITokenCreator creator;
+
     mapping(address => bool) public frozenAccounts;
 
     event FrozenFunds(address account, bool frozen);

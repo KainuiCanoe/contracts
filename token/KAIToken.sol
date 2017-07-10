@@ -1,12 +1,12 @@
-pragma solidity ^0.4.0;
+pragma solidity ^0.4.11;
 
 import './ERC20Token.sol';
-import './Owned.sol';
+import './owned.sol';
 
 /*
     Abstract Token for managing KAI Coins
 */
-contract KAIToken is Owned, ERC20Token {
+contract KAIToken is owned, ERC20Token {
     string public constant name = "KAI Token";
     string public constant symbol = "KAI";
     uint256 public constant totalSupply = 8888888; // 8 Million, 8 Hundred Eighty Eight Thousand, 8 Hundred Eighty Eight

@@ -1,37 +1,33 @@
-pragma solidity ^0.4.0;
+pragma solidity ^0.4.11;
 
-import './ERC20Interface.sol';
+import './ERC20.sol';
 
 /*
     Basic implementation of the ERC20 standard.
 */
-contract ERC20Token is ERC20Interface {
+contract ERC20Token is ERC20 {
     string public constant name = "ERC20 Token";
     string public constant symbol = "ERC20";
     uint8 public constant decimals = 18;  // 18 is the most common number of decimal places
-    uint256 public constant totalSupply = 0;
+    uint public circulating = 0;
 
     // Balances for each account
-    mapping(address => uint256) balances;
+    mapping(address => uint) balances;
 
     // Owner of account approves the transfer of an amount to another account
-    mapping(address => mapping (address => uint256)) allowed;
+    mapping(address => mapping (address => uint)) allowed;
 
     function ERC20BasicToken() {
         balances[msg.sender] = totalSupply;
     }
 
-    function totalSupply() constant returns (uint256 totalSupply) {
-        return totalSupply;
-    }
-
     // What is the balance of a particular account?
-    function balanceOf(address account) constant returns (uint256 balance) {
+    function balanceOf(address account) constant returns (uint balance) {
         return balances[account];
     }
 
     // Transfer the balance from owner's account to another account
-    function transfer(address toAccount, uint256 amount) returns (bool success) {
+    function transfer(address toAccount, uint amount) returns (bool success) {
         if (balances[msg.sender] >= amount
             && amount > 0
             && balances[toAccount] + amount > balances[toAccount]) {
@@ -52,7 +48,7 @@ contract ERC20Token is ERC20Interface {
     // fees in sub-currencies; the command should fail unless the from account has
     // deliberately authorized the sender of the message via some mechanism; we propose
     // these standardized APIs for approval:
-    function transferFrom(address fromAccount, address toAccount, uint256 amount) returns (bool success) {
+    function transferFrom(address fromAccount, address toAccount, uint amount) returns (bool success) {
         if (balances[fromAccount] >= amount
         && allowed[fromAccount][msg.sender] >= amount
         && amount > 0
@@ -68,7 +64,7 @@ contract ERC20Token is ERC20Interface {
 
     // Allow spender to withdraw from your account, multiple times, up to the value amount.
     // If this function is called again it overwrites the current allowance with value.
-    function approve(address spender, uint256 amount) returns (bool success) {
+    function approve(address spender, uint amount) returns (bool success) {
         allowed[msg.sender][spender] = amount;
         return true;
     }

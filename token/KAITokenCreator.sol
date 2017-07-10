@@ -1,4 +1,4 @@
-pragma solidity ^0.4.0;
+pragma solidity ^0.4.11;
 
 
 contract KAITokenCreator {
@@ -10,9 +10,10 @@ contract KAITokenCreator {
         // From the JavaScript side, the return type is simply
         // "address", as this is the closest type available in
         // the ABI.
-        if(action = Founder) return new KAIFounderToken();
-        if(action = Investor) return new KAIInvestorToken();
-        if(action = ContentProvider) return new KAIContentToken();
+        if(actor == Founder) return new KAIFounderToken();
+        if(actor == Investor) return new KAIInvestorToken();
+        if(actor == ContentProvider) return new KAIContentToken();
+        throw;
     }
 
     function isTokenTransferOK(address currentOwner, address newOwner) returns (bool ok) {
@@ -20,4 +21,4 @@ contract KAITokenCreator {
         address tokenAddress = msg.sender;
         return (keccak256(newOwner) & 0xff) == (bytes20(tokenAddress) & 0xff);
     }
-}2
+}

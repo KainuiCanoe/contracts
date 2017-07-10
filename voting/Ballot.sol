@@ -1,4 +1,4 @@
-pragma solidity ^0.4.0;
+pragma solidity ^0.4.11;
 //
 contract Ballot {
 
@@ -46,15 +46,14 @@ contract Ballot {
     /// Give your vote (including votes delegated to you)
     /// to proposal `proposals[proposal].name`.
     function vote(uint proposal) {
-        Voter sender = voters[msg.sender];
-        require(!sender.voted);
-        sender.voted = true;
-        sender.vote = proposal;
+        require(!voters[msg.sender].voted);
+        voters[msg.sender].voted = true;
+        voters[msg.sender].vote = proposal;
 
         // If `proposal` is out of the range of the array,
         // this will throw automatically and revert all
         // changes.
-        proposals[proposal].voteCount += balances[sender.account];
+        proposals[proposal].voteCount += balances[voters[msg.sender].account];
     }
 
     /// @dev Computes the winning proposal taking all

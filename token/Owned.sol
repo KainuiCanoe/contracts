@@ -1,47 +1,18 @@
-pragma solidity ^0.4.0;
+pragma solidity ^0.4.11;
 
 
-contract Owned {
+contract owned {
     address owner;
 
     // Functions with this modifier can only be executed by the owner
     modifier onlyOwner() {
-        if (msg.sender != owner) throw;
+        require (msg.sender != owner);
         _;
     }
 
     // This is the constructor which registers the creator.
-    function OwnedToken() {
-        // State variables are accessed via their name
-        // and not via e.g. this.owner. This also applies
-        // to functions and especially in the constructors,
-        // you can only call them like that ("internall"),
-        // because the contract itself does not exist yet.
+    function owned() {
         owner = msg.sender;
-        // We do an explicit type conversion from `address`
-        // to `TokenCreator` and assume that the type of
-        // the calling contract is TokenCreator, there is
-        // no real way to check that.
-        creator = TokenCreator(msg.sender);
     }
 
-    function changeName(bytes32 newName) {
-        // Only the creator can alter the name --
-        // the comparison is possible since contracts
-        // are implicitly convertible to addresses.
-        if (msg.sender == address(creator))
-            name = newName;
-    }
-
-    function transfer(address newOwner) {
-        // Only the current owner can transfer the token.
-        require (msg.sender != owner);
-        // We also want to ask the creator if the transfer
-        // is fine. Note that this calls a function of the
-        // contract defined below. If the call fails (e.g.
-        // due to out-of-gas), the execution here stops
-        // immediately.
-        if (creator.isTokenTransferOK(owner, newOwner))
-            owner = newOwner;
-    }
 }

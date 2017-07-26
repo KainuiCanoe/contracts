@@ -1,30 +1,25 @@
 pragma solidity ^0.4.11;
 
 import './ERC20Token.sol';
-import './owned.sol';
+import './Owned.sol';
 
 /*
     Abstract Token for managing KAI Coins
 */
-contract KAIToken is owned, ERC20Token {
+contract KAIToken is Owned, ERC20Token {
     string public constant name = "KAI Token";
     string public constant symbol = "KAI";
-    uint256 public constant totalSupply = 8888888; // 8 Million, 8 Hundred Eighty Eight Thousand, 8 Hundred Eighty Eight
-    uint256 public circulating = 0;
-    uint256 public sellPrice = 0;
-
+    uint256 public constant totalSupply = 8888888; // 8,888,888 values
+    uint8 public constant decimals = 3; // 8,888,888,000 values (8,888,888.000)
     uint public constant creationTime;
 
-    // TokenCreator is a contract type that is defined below.
-    // It is fine to reference it as long as it is not used
-    // to create a new contract.
-    KAITokenCreator creator;
+    uint256 public sellPrice = 0;
 
     mapping(address => bool) public frozenAccounts;
 
     event FrozenFunds(address account, bool frozen);
 
-    function KAIToken() {
+    function KAIToken() Owned() ERC20Token() {
         creationTime = now;
     }
 
@@ -48,6 +43,16 @@ contract KAIToken is owned, ERC20Token {
     function setPrices(uint256 newSellPrice, uint256 newBuyPrice) onlyOwner {
         sellPrice = newSellPrice;
         buyPrice = newBuyPrice;
+    }
+
+    function buy() payable returns (uint amount) {
+        amount = msg.value / buyPrice;        // calculates the amount
+        require((circulating + amount <= totalSupply) && (balanceOf[this] >= amount);    // checks if it has enough to sell
+        balanceOf[msg.sender] += amount;      // adds the amount to buyer's balance
+        balanceOf[this] -= amount;            // subtracts amount from seller's balance
+        circulating += amount;
+        Transfer(this, msg.sender, amount);   // execute an event reflecting the change
+        return amount;
     }
 
     function sell(uint amount) returns (uint revenue) {

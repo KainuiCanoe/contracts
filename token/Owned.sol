@@ -1,7 +1,7 @@
 pragma solidity ^0.4.11;
 
 
-contract owned {
+contract Owned {
     address owner;
 
     // Functions with this modifier can only be executed by the owner
@@ -11,7 +11,7 @@ contract owned {
     }
 
     // This is the constructor which registers the creator.
-    function owned() {
+    function Owned() {
         owner = msg.sender;
     }
 

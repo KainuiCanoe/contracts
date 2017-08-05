@@ -6,11 +6,10 @@ import './Owned.sol';
 /*
     Abstract Token for managing KAI Coins
 */
-contract KAIToken is Owned, ERC20Token {
-    string public constant name = "KAI Token";
-    string public constant symbol = "KAI";
-    uint256 public constant totalSupply = 1000000000; // 1,000,000,000 tokens
-    uint8 public constant decimals = 3; // Fractions
+contract KIATicketToken is Owned, ERC20Token {
+    string public constant name = "KAI-TCK Token";
+    string public constant symbol = "KAI-TCK";
+    uint8 public constant decimals = 0; // Fractions
     uint public constant creationTime;
 
     uint256 public sellPrice = 0;

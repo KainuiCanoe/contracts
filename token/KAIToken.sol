@@ -2,15 +2,16 @@ pragma solidity ^0.4.11;
 
 import './ERC20Token.sol';
 import './Owned.sol';
+import '../utilities/SafeMath.sol';
 
 /*
     Abstract Token for managing KAI Coins
 */
-contract KAIToken is Owned, ERC20Token {
+contract KAIToken is SafeMath, Owned, ERC20Token {
     string public constant name = "KAI Token";
     string public constant symbol = "KAI";
-    uint256 public constant totalSupply = 1000000000; // 1,000,000,000 tokens
-    uint8 public constant decimals = 3; // Fractions
+    uint256 public constant totalSupply = 1000000; // 1,000,000 tokens (1 Million)
+    uint8 public constant decimals = 3; // Fractions - 1 Billion Units
     uint public constant creationTime;
 
     uint256 public sellPrice = 0;
@@ -19,7 +20,7 @@ contract KAIToken is Owned, ERC20Token {
 
     event FrozenFunds(address account, bool frozen);
 
-    function KAIToken() Owned() ERC20Token() {
+    function KAIToken() SafeMath() Owned() ERC20Token() {
         creationTime = now;
     }
 

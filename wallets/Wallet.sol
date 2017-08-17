@@ -313,9 +313,9 @@ contract Wallet is multisig, MultiOwned, daylimit {
 
     // Transaction structure to remember details of transaction lest it need be saved for a later call.
     struct Transaction {
-    address to;
-    uint value;
-    bytes data;
+        address to;
+        uint value;
+        bytes data;
     }
 
     // METHODS
@@ -323,7 +323,7 @@ contract Wallet is multisig, MultiOwned, daylimit {
     // constructor - just pass on the owner array to the MultiOwned and
     // the limit to daylimit
     function Wallet(address[] _owners, uint _required, uint _daylimit)
-    MultiOwned(_owners, _required) daylimit(_daylimit) {
+        MultiOwned(_owners, _required) daylimit(_daylimit) {
     }
 
     // kills the contract sending everything to `_to`.
